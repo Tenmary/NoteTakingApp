@@ -14,7 +14,9 @@ export const SavedNotesList: React.FC = () => {
     <View style={styles.container}>
       {notes.map((note) => (
         <View style={styles.row} key={note.id}>
-          <Text style={styles.note}>{note.text}</Text>
+          <Text style={styles.note}>
+            {note.text.length === 0 ? "(Blank note)" : note.text}
+          </Text>
         </View>
       ))}
     </View>
