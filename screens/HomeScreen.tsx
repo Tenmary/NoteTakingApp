@@ -7,7 +7,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 type Props = {
   setShouldCreateNewNote: (toggle: boolean) => void;
 };
-export const HomeScreen: React.FC<Props> = () => {
+
+export const HomeScreen: React.FC = () => {
   const navigation = useNavigation<ScreenNavigationProp>();
   const [noteText, setNoteText] = useState<string>("");
 
