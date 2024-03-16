@@ -27,9 +27,22 @@ export const getNote = async (id: string) => {
   return note;
 };
 
-export const saveNote = async (text: string) => {
-  const NoteStore = await getAllNotes();
-  const notes = [...NoteStore.notes, { id: uuidv4(), text: text }];
+export const saveNote = async (text: string, noteId: string | undefined) => {
+  const noteStore = await getAllNotes();
+  if (noteId) {
+    const noteIndex = noteStore.notes.findIndex((note) => note.id === noteId);
+    noteStore.notes.splice(noteIndex, 1, { id: noteId, text: text });
+  } else {
+    noteStore.notes.push({ id: uuidv4(), text: text });
+  }
 
-  await AsyncStorage.setItem(STORE_KEY, JSON.stringify({ notes: notes }));
+  await AsyncStorage.setItem(STORE_KEY, JSON.stringify(noteStore));
+};
+
+export const deleteNote = async (noteId: string | undefined) => {
+  const noteStore = await getAllNotes();
+  const noteIndex = noteStore.notes.findIndex((note) => note.id === noteId);
+  noteStore.notes.splice(noteIndex, 1);
+  const newStore = JSON.stringify(noteStore);
+  await AsyncStorage.setItem(STORE_KEY, newStore);
 };
